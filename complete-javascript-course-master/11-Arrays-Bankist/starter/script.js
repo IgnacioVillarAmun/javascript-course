@@ -536,59 +536,119 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 //   console.log(movementsUI);
 // });
 
-// 1.
-const bankDepositSum = accounts
-  .flatMap(acc => acc.movements)
-  .filter(mov => mov > 0)
-  .reduce((acc, sum) => acc + sum, 0);
-console.log(bankDepositSum);
+// // 1.
+// const bankDepositSum = accounts
+//   .flatMap(acc => acc.movements)
+//   .filter(mov => mov > 0)
+//   .reduce((acc, sum) => acc + sum, 0);
+// console.log(bankDepositSum);
 
-// 2.
+// // 2.
+// // const deposits1000 = accounts
+// //   .flatMap(acc => acc.movements)
+// //   .filter(mov => mov >= 1000).length;
+
 // const deposits1000 = accounts
 //   .flatMap(acc => acc.movements)
-//   .filter(mov => mov >= 1000).length;
+//   .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
+// console.log(deposits1000);
 
-const deposits1000 = accounts
-  .flatMap(acc => acc.movements)
-  .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
-console.log(deposits1000);
+// // 3.
+// const { deposits, withdrawals } = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce(
+//     (sums, cur) => {
+//       // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+//       sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+//       return sums;
+//     },
+//     { deposits: 0, withdrawals: 0 }
+//   );
+// console.log(deposits, withdrawals);
 
-// 3.
-const { deposits, withdrawals } = accounts
-  .flatMap(acc => acc.movements)
-  .reduce(
-    (sums, cur) => {
-      // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
-      sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
-      return sums;
-    },
-    { deposits: 0, withdrawals: 0 }
-  );
-console.log(deposits, withdrawals);
+// // 4.
+// const convertTitleCase = function (title) {
+//   const capitalize = str => str[0].toUpperCase() + str.slice(1);
+//   const exceptions = [
+//     'a',
+//     'an',
+//     'and ',
+//     'the',
+//     'but',
+//     'or',
+//     'on',
+//     'in',
+//     'with',
+//   ];
 
-// 4.
-const convertTitleCase = function (title) {
-  const capitalize = str => str[0].toUpperCase() + str.slice(1);
-  const exceptions = [
-    'a',
-    'an',
-    'and ',
-    'the',
-    'but',
-    'or',
-    'on',
-    'in',
-    'with',
-  ];
+//   const titleCase = title
+//     .toLowerCase()
+//     .split(' ')
+//     .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+//     .join(' ');
+//   return capitalize(titleCase);
+// };
 
-  const titleCase = title
-    .toLowerCase()
-    .split(' ')
-    .map(word => (exceptions.includes(word) ? word : capitalize(word)))
-    .join(' ');
-  return capitalize(titleCase);
-};
+// console.log(convertTitleCase('this is a nice title'));
+// console.log(convertTitleCase('this is a LONG title but not too long'));
+// console.log(convertTitleCase('and here is another title with an EXAMPLE'));
 
-console.log(convertTitleCase('this is a nice title'));
-console.log(convertTitleCase('this is a LONG title but not too long'));
-console.log(convertTitleCase('and here is another title with an EXAMPLE'));
+// Coding Challenge #4
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+// Part 1
+const foodPortion = dogs.map(
+  dog => (dog.foodPort = Math.trunc(dog.weight ** 0.75 * 28))
+);
+console.log(dogs);
+
+// Part 2
+const dogSarah = dogs.find(dog => dog.owners.includes('Sarah'));
+console.log(
+  `Sarah's dogs is eating too ${
+    dogSarah.foodPort < dogSarah.curFood ? 'much' : 'little'
+  }`
+);
+
+// Part3
+const ownersEatTooMuch = dogs
+  .filter(dog => dog.curFood > dog.foodPort)
+  .flatMap(dog => dog.owners);
+const ownersEatTooLittle = dogs
+  .filter(dog => dog.curFood < dog.foodPort)
+  .flatMap(dog => dog.owners);
+console.log(ownersEatTooMuch);
+console.log(ownersEatTooLittle);
+
+// Part4
+("Matilda and Alice and Bob's dogs eat too much!");
+("Sarah and John and Michael's dogs eat too little!");
+
+const tooMuch = `${ownersEatTooMuch.join(' and ')}'s dogs eat too much!`;
+const tooLittle = `${ownersEatTooLittle.join(' and ')}'s dogs eat too little!`;
+console.log(tooMuch);
+console.log(tooLittle);
+
+// Part5
+const exactly = dogs.some(dog => dog.curFood === dog.foodPort);
+console.log(exactly);
+
+// Part6
+const checkEatingOkay = dog =>
+  dog.curFood > dog.foodPort * 0.9 && dog.curFood < dog.foodPort * 1.1;
+const okay = dogs.some(checkEatingOkay);
+console.log(okay);
+
+// part7
+const eatingOkay = dogs.filter(checkEatingOkay);
+console.log(eatingOkay);
+
+// part8
+const dogsCopy = dogs.slice().sort((a, b) => a.foodPort - b.foodPort);
+console.log(dogsCopy);
