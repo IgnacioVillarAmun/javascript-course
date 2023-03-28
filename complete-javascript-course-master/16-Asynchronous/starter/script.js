@@ -566,7 +566,7 @@ const loadNPause = async function () {
     console.log(error);
   }
 };
-loadNPause();
+// loadNPause();
 
 const loadAll = async function (imgArr) {
   try {
