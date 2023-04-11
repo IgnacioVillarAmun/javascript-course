@@ -1,4 +1,5 @@
 'strict mode';
+//continue
 
 const budget = Object.freeze([
   { value: 250, description: 'Sold old TV 📺', user: 'jonas' },
